@@ -7,12 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [react(), tailwindcss(), VitePWA({
     registerType: 'autoUpdate',
-    injectRegister: false,
-
-    pwaAssets: {
-      disabled: false,
-      config: true,
-    },
+    includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
 
     manifest: {
       name: 'home-hub',
@@ -49,17 +44,8 @@ export default defineConfig({
       ],
     },
 
-    workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-      cleanupOutdatedCaches: true,
-      clientsClaim: true,
-    },
-
     devOptions: {
-      enabled: false,
-      navigateFallback: 'index.html',
-      suppressWarnings: true,
-      type: 'module',
+      enabled: true,
     },
   })],
 })
