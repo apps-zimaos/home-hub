@@ -1,0 +1,37 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_BACKGROUND_URL: ${VITE_BACKGROUND_URL}
+        VITE_SYSTEM_NAME: ${VITE_SYSTEM_NAME}
+        VITE_HOME_SERVER_URL: ${VITE_HOME_SERVER_URL}
+        VITE_API_URL: /api
+
+    restart: unless-stopped
+
+    ports:
+      - "7001:80"
+
+    depends_on:
+      - backend
+
+
+  backend:
+    build:
+      context: ./backend
+
+    restart: unless-stopped
+
+    environment:
+      NODE_ENV: production
+      PORT: 7002
+      DATABASE_PATH: /app/data/hub.sqlite
+      CLIENT_URL: ${CLIENT_URL}
+
+    volumes:
+      - hub_data:/app/data
+
+
+volumes:
+  hub_data:
