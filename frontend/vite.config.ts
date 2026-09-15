@@ -9,6 +9,16 @@ export default defineConfig({
     registerType: 'autoUpdate',
     includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
 
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: ({ url }) => url.pathname.startsWith("/api/"),
+          
+          handler: 'NetworkFirst',
+        }
+      ]
+    },
+
     manifest: {
       name: 'home-hub',
       short_name: 'hub',
