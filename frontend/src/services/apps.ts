@@ -3,10 +3,10 @@ import type {
   HubApp,
 } from "../types/app";
 
-import { API_URL } from "./api";
+import { API_URL, apiFetch } from "./api";
 
 export async function getApps(): Promise<HubApp[]> {
-  const response = await fetch(`${API_URL}/apps`);
+  const response = await apiFetch(`${API_URL}/apps`);
 
   if (!response.ok) {
     throw new Error("Unable to load apps.");
@@ -18,7 +18,7 @@ export async function getApps(): Promise<HubApp[]> {
 export async function createApp(
   data: AppFormData,
 ): Promise<HubApp> {
-  const response = await fetch(`${API_URL}/apps`, {
+  const response = await apiFetch(`${API_URL}/apps`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export async function updateApp(
   id: string,
   data: AppFormData,
 ): Promise<HubApp> {
-  const response = await fetch(`${API_URL}/apps/${id}`, {
+  const response = await apiFetch(`${API_URL}/apps/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export async function updateApp(
 }
 
 export async function deleteApp(id: string) {
-  const response = await fetch(`${API_URL}/apps/${id}`, {
+  const response = await apiFetch(`${API_URL}/apps/${id}`, {
     method: "DELETE",
   });
 

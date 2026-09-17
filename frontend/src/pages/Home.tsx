@@ -10,7 +10,7 @@ const backgroundUrl = import.meta.env.VITE_BACKGROUND_URL;
 export function Home() {
   const [search, setSearch] = useState("");
 
-  const { apps, loading, error } = useApps();
+  const { apps, loading, error, authRequired } = useApps();
 
   const filteredApps = useMemo(() => {
     const value = search.trim().toLowerCase();
@@ -45,7 +45,21 @@ export function Home() {
           {error && (
             <p className="text-sm text-red-400">Unable to load apps.</p>
           )}
+          {authRequired && (
+            <div>
+              <p>Session expired</p>
 
+              <p>Sign in again to continue.</p>
+
+              <button
+                onClick={() => {
+                  window.location.href = window.location.origin;
+                }}
+              >
+                Sign in
+              </button>
+            </div>
+          )}
           {!loading && !error && <AppGrid apps={filteredApps} />}
         </main>
       </div>

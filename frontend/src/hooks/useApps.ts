@@ -7,16 +7,22 @@ export function useApps() {
   const [apps, setApps] = useState<HubApp[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
 
   const loadApps = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
+      setAuthRequired(false);
 
       const data = await getApps();
-
       setApps(data);
-    } catch {
+    } catch (error) {
+      if (error instanceof Error && error.message === "AUTH_REQUIRED") {
+        setAuthRequired(true);
+        return;
+      }
+
       setError("Unable to load apps.");
     } finally {
       setLoading(false);
@@ -32,5 +38,6 @@ export function useApps() {
     loading,
     error,
     reload: loadApps,
+    authRequired,
   };
 }
